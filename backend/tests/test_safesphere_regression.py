@@ -11,7 +11,7 @@ def test_api_root_and_financial():
     financial = requests.get(f"{BASE_URL}/api/financial", timeout=15)
     assert financial.status_code == 200
     data = financial.json()
-    assert data["index"] == 72.4 and len(data["series"]) == 6
+    assert data["index"] == 72.4 and data["series"] == []
 
 
 def test_demo_analysis_and_invalid_coordinates():

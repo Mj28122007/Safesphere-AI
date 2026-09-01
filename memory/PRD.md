@@ -28,11 +28,17 @@ Integrate the existing SafeSphere UI/UX with backend functions from the public G
 ### 2026-09-01
 - Replaced starter screen with SafeSphere intelligence dashboard matching the UXpilot direction.
 - Added FastAPI `/api/analyze` with coordinate validation, deterministic hazard scenarios, and live weather/air-quality telemetry.
-- Added `/api/financial` response model and compact financial series for the frontend chart.
+- Added `/api/financial` response model for the financial index, regional impact alerts, and exposed companies.
 - Added animated search loading state, preset locations, Enter-to-submit, hover menu, live/demo refresh, scenario selector, protocol feedback, and user-facing fallback states.
-- Added atmospheric telemetry cards, responsive risk mapping view, safety response queue, chart, disruption feed, and entity exposure list.
+- Added atmospheric telemetry cards, responsive risk mapping view, safety response queue, disruption feed, and entity exposure list.
 - Added unique `data-testid` attributes across interactive and critical UI flows.
 - Verified build, backend regression, end-to-end interactions, and 390px mobile no-overflow.
+
+### 2026-09-01 — Intelligence expansion
+- Reframed the first viewport around a large animated Earth and four separated, rounded feature windows.
+- Added live location weather endpoint and weather dashboard with temperature, humidity, wind, precipitation, and source status.
+- Added Leaflet/OpenStreetMap live map with five risk layers, geolocation, heatmap rendering, route mapping, and route fallback.
+- Removed the financial graph and replaced it with disruption alerts, regional impact destinations, market index, and company alert breakdown.
 
 ## Prioritized backlog
 ### P0
@@ -49,6 +55,6 @@ Integrate the existing SafeSphere UI/UX with backend functions from the public G
 - Add team workspaces and role-based analyst views.
 
 ## Next tasks
-1. Connect the real financial backend contract and map its series into the existing chart.
+1. Connect the real financial backend contract and map its fields into the existing alert and company blocks.
 2. Add city-name geocoding and recent-search suggestions.
 3. Persist alert history and protocol acknowledgements.

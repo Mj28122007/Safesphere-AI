@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="2" time="1.549" timestamp="2026-09-01T21:46:46.238159+00:00" hostname="agent-env-eb07af77-979b-485b-92f3-ba194c713f73"><testcase classname="tests.test_safesphere_regression" name="test_api_root_and_financial" time="0.483"><failure message="assert (72.4 == 72.4 and 0 == 6)&#10; +  where 0 = len([])">backend/tests/test_safesphere_regression.py:14: in test_api_root_and_financial
+    assert data["index"] == 72.4 and len(data["series"]) == 6
+E   assert (72.4 == 72.4 and 0 == 6)
+E    +  where 0 = len([])</failure></testcase><testcase classname="tests.test_safesphere_regression" name="test_demo_analysis_and_invalid_coordinates" time="0.391" /></testsuite></testsuites>

@@ -59,6 +59,12 @@ class FinancialResponse(BaseModel):
     alerts: List[dict]
     entities: List[dict]
 
+class RouteRequest(BaseModel):
+    start_lat: float
+    start_lon: float
+    end_lat: float
+    end_lon: float
+
 # Add your routes to the router instead of directly to app
 @api_router.get("/")
 async def root():
@@ -102,7 +108,30 @@ async def analyze(req: AnalyzeRequest):
 
 @api_router.get("/financial", response_model=FinancialResponse)
 async def financial():
-    return FinancialResponse(index=72.4, trend="elevated", series=[FinancialPoint(label=x, value=v) for x, v in [("00:00", 46), ("04:00", 51), ("08:00", 48), ("12:00", 63), ("16:00", 59), ("20:00", 72)]], alerts=[{"title": "Supply Chain Volatility", "detail": "Congestion detected at regional transport hubs.", "severity": "HIGH"}, {"title": "Energy Grid Stress", "detail": "Fluctuations in industrial energy delivery.", "severity": "MODERATE"}], entities=[{"name": "Global Logix Corp", "level": "HIGH"}, {"name": "Aether Energy", "level": "MED"}, {"name": "Titan Fab", "level": "LOW"}])
+    return FinancialResponse(index=72.4, trend="elevated", series=[], alerts=[{"title": "Supply Chain Volatility", "detail": "Rainfall and flooding may disrupt regional transport hubs in coastal corridors.", "region": "South India · East Coast", "severity": "HIGH"}, {"title": "Heat Wave Pressure", "detail": "Extreme heat may increase energy demand and impact industrial output.", "region": "North India · Inland hubs", "severity": "MODERATE"}], entities=[{"name": "Global Logix Corp", "region": "Chennai / Port routes", "level": "HIGH"}, {"name": "Aether Energy", "region": "Hyderabad / Grid belt", "level": "MED"}, {"name": "Titan Fab", "region": "Bengaluru / Industrial", "level": "LOW"}])
+
+@api_router.get("/weather")
+async def weather(lat: float, lon: float):
+    if not (-90 <= lat <= 90 and -180 <= lon <= 180): raise HTTPException(status_code=422, detail="Invalid coordinates")
+    data = _get_json("https://api.open-meteo.com/v1/forecast", {"latitude": lat, "longitude": lon, "current": "temperature_2m,relative_humidity_2m,precipitation,weather_code,wind_speed_10m", "timezone": "auto"})
+    if not data: return {"status": "fallback", "current": {"temperature_2m": 24, "relative_humidity_2m": 62, "precipitation": 0.5, "weather_code": 1, "wind_speed_10m": 14}, "source": "DEMO FALLBACK"}
+    return {"status": "live", "current": data.get("current", {}), "source": "Open-Meteo"}
+
+@api_router.get("/map/heatmap/{layer}")
+async def heatmap(layer: str, lat: float = 13.0827, lon: float = 80.2707):
+    if layer not in {"flood", "heat", "storm", "air", "earthquake"}: raise HTTPException(status_code=422, detail="Unknown risk layer")
+    seed = {"flood": .8, "heat": .65, "storm": .58, "air": .48, "earthquake": .34}[layer]
+    points = [{"lat": lat + math.sin(i * 1.7) * .12, "lng": lon + math.cos(i * 1.3) * .12, "intensity": max(.1, min(1, seed + math.sin(i) * .18))} for i in range(28)]
+    return {"layer": layer, "points": points, "source": "SafeSphere risk grid"}
+
+@api_router.post("/map/route")
+async def map_route(request: RouteRequest):
+    coords = f"{request.start_lon},{request.start_lat};{request.end_lon},{request.end_lat}"
+    data = _get_json("https://router.project-osrm.org/route/v1/driving/" + coords, {"overview": "full", "geometries": "geojson"})
+    if data and data.get("routes"):
+        route = data["routes"][0]
+        return {"geometry": route["geometry"], "distance_m": route["distance"], "duration_s": route["duration"], "source": "OSRM"}
+    return {"geometry": {"type": "LineString", "coordinates": [[request.start_lon, request.start_lat], [request.end_lon, request.end_lat]]}, "distance_m": 4200, "duration_s": 720, "source": "DEMO ROUTE"}
 
 @api_router.post("/status", response_model=StatusCheck)
 async def create_status_check(input: StatusCheckCreate):

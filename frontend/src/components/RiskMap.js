@@ -1,0 +1,17 @@
+import { useEffect, useState } from "react";
+import { CircleMarker, MapContainer, Polyline, TileLayer, useMap } from "react-leaflet";
+import L from "leaflet";
+import "leaflet/dist/leaflet.css";
+import "leaflet.heat";
+
+const API = `${process.env.REACT_APP_BACKEND_URL}/api`;
+const layers = ["flood", "heat", "storm", "air", "earthquake"];
+function Heat({ points }) { const map = useMap(); useEffect(() => { const layer = L.heatLayer(points.map((p) => [p.lat, p.lng, p.intensity]), { radius: 30, blur: 22, maxZoom: 14, gradient: { 0.2: "#25c9b6", 0.55: "#f0c75e", 0.8: "#f47758", 1: "#ec526a" } }).addTo(map); return () => layer.remove(); }, [map, points]); return null; }
+function Follow({ center }) { const map = useMap(); useEffect(() => { map.flyTo(center, 11, { duration: 1 }); }, [center, map]); return null; }
+export default function RiskMap() {
+  const [layer, setLayer] = useState("flood"); const [center, setCenter] = useState([13.0827, 80.2707]); const [points, setPoints] = useState([]); const [route, setRoute] = useState(null); const [routeInfo, setRouteInfo] = useState(""); const [mapError, setMapError] = useState("");
+  useEffect(() => { fetch(`${API}/map/heatmap/${layer}?lat=${center[0]}&lon=${center[1]}`).then((r) => r.json()).then((d) => setPoints(d.points || [])).catch(() => setMapError("Risk layer unavailable")); }, [layer, center]);
+  const locate = () => navigator.geolocation?.getCurrentPosition((p) => setCenter([p.coords.latitude, p.coords.longitude]), () => setMapError("Location permission was not available; showing Chennai."));
+  const routeToSector = async () => { const end = [center[0] + .06, center[1] + .07]; const r = await fetch(`${API}/map/route`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ start_lat: center[0], start_lon: center[1], end_lat: end[0], end_lon: end[1] }) }); const d = await r.json(); setRoute(d.geometry?.coordinates?.map(([lon, lat]) => [lat, lon])); setRouteInfo(`${(d.distance_m / 1000).toFixed(1)} km · ${Math.round(d.duration_s / 60)} min`); };
+  return <div className="map-workspace" data-testid="live-map-workspace"><div className="map-toolbar"><div><span className="module-label">LIVE GRID OVERLAY</span><strong>Risk intelligence map</strong></div><div className="map-controls"><label>RISK LAYER<select value={layer} onChange={(e) => setLayer(e.target.value)} data-testid="risk-layer-select">{layers.map((item) => <option key={item} value={item}>{item[0].toUpperCase() + item.slice(1)} risk</option>)}</select></label><button onClick={locate} data-testid="go-live-location-button">◎ Live location</button><button onClick={routeToSector} data-testid="route-mapping-button">↗ Route mapping</button></div></div><div className="map-frame"><MapContainer center={center} zoom={11} scrollWheelZoom className="leaflet-map"><TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" attribution="&copy; OpenStreetMap contributors" /><Follow center={center} /><Heat points={points} /><CircleMarker center={center} radius={8} pathOptions={{ color: "#62e4df", fillColor: "#62e4df", fillOpacity: 1 }} />{route && <Polyline positions={route} pathOptions={{ color: "#f0c75e", weight: 4, dashArray: "8 8" }} />}</MapContainer><div className="map-legend"><span><i className="low" /> LOW</span><span><i className="high" /> HIGH</span><small>{routeInfo || `${layer.toUpperCase()} HEATMAP ACTIVE`}</small></div></div>{mapError && <p className="map-error" data-testid="map-error-message">{mapError}</p>}</div>;
+}
