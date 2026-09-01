@@ -40,6 +40,12 @@ Integrate the existing SafeSphere UI/UX with backend functions from the public G
 - Added Leaflet/OpenStreetMap live map with five risk layers, geolocation, heatmap rendering, route mapping, and route fallback.
 - Removed the financial graph and replaced it with disruption alerts, regional impact destinations, market index, and company alert breakdown.
 
+### 2026-09-01 — Embedded live site and response layer
+- Replaced the parent map recreation with the exact Vercel website loaded in a responsive iframe at `https://safesphereai-rudt.vercel.app/`.
+- Kept the generated Earth graphic in its circular frame and changed motion to a 360-degree Y-axis rotation.
+- Changed the fourth feature to Emergency Response with a three-step response subwindow: verify source, select team, and share safe route.
+- Verified exact iframe source, geolocation permission, Earth animation, response confirmation, and 390px responsive behavior.
+
 ## Prioritized backlog
 ### P0
 - Replace deterministic financial data with the real financial intelligence endpoint when it exists.
