@@ -18,11 +18,15 @@
 .reference-companies{display:flex;flex-direction:column}
 .reference-companies .company-columns{flex:1;grid-auto-rows:1fr}
 .company-column{height:100%;justify-content:space-between}
-.company-column b{font-size:15px;letter-spacing:-.01em}
+.company-column b{font-size:clamp(30px,3.2vw,46px);letter-spacing:-.03em;line-height:1.05}
 .company-column p{margin-top:auto;font-size:12px}
 
-/* --- Alerts: cleaner body without the sun/storm icon badges --- */
-.reference-alerts article .alert-body{flex:1;min-width:0}
+/* --- Alerts: cleaner body without the sun/storm icon badges, big bullet titles --- */
+.reference-alerts article{padding:26px 0}
+.reference-alerts article .alert-body{flex:1;min-width:0;display:flex;flex-direction:column;gap:10px}
+.reference-alerts article .alert-body b{font-size:clamp(20px,2.1vw,28px);line-height:1.15;color:#eaf3f2;letter-spacing:-.01em;display:flex;align-items:baseline;gap:10px}
+.reference-alerts article .alert-body .alert-bullet{color:#62e4df;font-size:1.4em;line-height:0;transform:translateY(4px)}
+.reference-alerts article .alert-body small{color:#62e4df;font:10px 'DM Mono',monospace;letter-spacing:.08em}
 
 /* --- Live NASA Earth video: fills the right half of the hero, no blue border/glow --- */
 .opening{grid-template-columns:1fr 1fr;gap:40px;padding:105px 0 80px 7vw;max-width:none}
