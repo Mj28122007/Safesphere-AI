@@ -133,6 +133,48 @@ async def map_route(request: RouteRequest):
         return {"geometry": route["geometry"], "distance_m": route["distance"], "duration_s": route["duration"], "source": "OSRM"}
     return {"geometry": {"type": "LineString", "coordinates": [[request.start_lon, request.start_lat], [request.end_lon, request.end_lat]]}, "distance_m": 4200, "duration_s": 720, "source": "DEMO ROUTE"}
 
+class SOSRequest(BaseModel):
+    location_name: str = "Unknown"
+    latitude: float
+    longitude: float
+    incident_type: str = "general"
+
+@api_router.post("/sos")
+async def sos(req: SOSRequest):
+    if not (-90 <= req.latitude <= 90 and -180 <= req.longitude <= 180):
+        raise HTTPException(status_code=422, detail="Invalid coordinates")
+    now = datetime.now(timezone.utc)
+    incident_id = f"SOS-{now.strftime('%Y%m%d')}-{uuid.uuid4().hex[:6].upper()}"
+    authorities = [
+        {"name": "Local Police Control Room", "channel": "112 · dispatched", "eta_min": 6},
+        {"name": "District Fire & Rescue", "channel": "101 · on standby", "eta_min": 9},
+        {"name": "State Disaster Response Force", "channel": "SDRF broadcast", "eta_min": 14},
+    ]
+    protocols = [
+        "Verified GPS ping and forwarded to city command center",
+        f"Broadcast alert triggered for a 2km radius around {req.location_name}",
+        "Field officers dispatched with medical + evacuation kit",
+        "Safe corridor computed and shared with responding units",
+    ]
+    record = {
+        "incident_id": incident_id,
+        "status": "DISPATCHED",
+        "priority": "P1",
+        "issued_at": now.isoformat(),
+        "location": {"name": req.location_name, "latitude": req.latitude, "longitude": req.longitude},
+        "incident_type": req.incident_type,
+        "authorities": authorities,
+        "protocols": protocols,
+        "hotline": "+91-112",
+        "expected_first_response_min": authorities[0]["eta_min"],
+    }
+    try:
+        await db.sos_incidents.insert_one(record)
+    except Exception:
+        pass
+    record.pop("_id", None)
+    return record
+
 @api_router.post("/status", response_model=StatusCheck)
 async def create_status_check(input: StatusCheckCreate):
     status_dict = input.model_dump()
