@@ -1,0 +1,21 @@
+{
+  "summary": "Retested the menu fix, public APIs, desktop flows, and 390px layout. Backend and core dashboard flows pass; live mode now updates telemetry correctly. Demo scenario controls remain absent from the frontend.",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [
+      {"flow": "Demo scenarios", "issue": "The backend supports normal/flood/earthquake/cyclone scenarios, but App.js renders no scenario selector or scenario buttons, so users cannot exercise the requested demo scenarios from the frontend.", "affected_selectors": []}
+    ],
+    "design_issues": []
+  },
+  "test_report_links": ["/app/backend/tests/test_safesphere_regression.py", "/app/test_reports/pytest/pytest_results.xml", "/app/test_reports/iteration_2.json"],
+  "action_items": ["Add frontend demo scenario controls wired to runAnalysis({scenario}) and expose them with unique data-testid attributes.", "Consider adding data-testid attributes to financial alert/entity rows if they are intended as critical test targets."],
+  "critical_code_review_comments": ["App.js defines scenario state but never renders a control that changes it; the requested demo scenario workflow is therefore unreachable through the UI."],
+  "updated_files": ["/app/backend/tests/test_safesphere_regression.py", "/app/test_reports/pytest/pytest_results.xml", "/app/test_reports/iteration_2.json"],
+  "success_rate": {"backend": "100%", "frontend": "95%"},
+  "seed_data_creation": "None",
+  "retest_needed": true,
+  "should_call_test_agent_after_fix": true,
+  "context_for_next_testing_agent": "Public root/financial/demo analysis/invalid-coordinate APIs passed. Hover menu, settings live-stream transition, Enter search, protocol feedback, financial rendering, desktop load, and 390px overflow passed. Scenario UI remains unimplemented. GET /api/financial and demo-mode POST /api/analyze are MOCKED deterministic data by design.",
+  "rca of the issue": "scenario state is initialized in App.js and sent by runAnalysis, but no JSX control updates scenario. Consequently the only reachable analysis modes are the initial normal demo and live toggle; flood/earthquake/cyclone cannot be selected from the dashboard."
+}

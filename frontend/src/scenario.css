@@ -1,0 +1,8 @@
+.scenario-control select {
+  background: #111a21;
+  color: #d7e7e8;
+  border: 0;
+  padding: 7px 2px;
+  font-size: 11px;
+  outline: 0;
+}

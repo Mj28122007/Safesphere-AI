@@ -1,0 +1,32 @@
+{
+  "app_type": "hybrid_fullstack",
+  "theme": "dark",
+  "typography": {
+    "heading": "Outfit, sans-serif",
+    "body": "Inter, sans-serif",
+    "weights": ["300", "400", "500", "600", "700"]
+  },
+  "colors": {
+    "primary": "#00F0FF",
+    "background": "#07090E",
+    "surface": "#121824",
+    "border": "#1E293B",
+    "text": "#F8FAFC",
+    "muted": "#94A3B8"
+  },
+  "components": [
+    "Navbar",
+    "TopRightHoverMenu",
+    "SmoothSearch",
+    "WeatherDashboard",
+    "RiskMappingGrid",
+    "RouteMappingPanel",
+    "FinancialIntelligenceModule",
+    "DisruptionAlertsFeed"
+  ],
+  "image_urls": {
+    "weather_globe": "https://images.unsplash.com/photo-1669950200208-c8a60cd1d8de?crop=entropy&cs=srgb&fm=jpg&q=85",
+    "crisis_map": "https://images.unsplash.com/photo-1774812809517-f48aa1ac9551?crop=entropy&cs=srgb&fm=jpg&q=85",
+    "financial_analytics": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?crop=entropy&cs=srgb&fm=jpg&q=85"
+  }
+}

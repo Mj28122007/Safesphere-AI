@@ -1,0 +1,28 @@
+{
+  "summary": "Tested public backend endpoints, production dashboard load, menu, search, protocol confirmation, financial module, and mobile layout. Core flows pass; live telemetry menu action does not update displayed telemetry.",
+  "backend_issues": {
+    "critical": [],
+    "minor": []
+  },
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [
+      {
+        "flow": "Use live/demo telemetry menu action",
+        "issue": "Clicking menu-settings-button changes demoMode state but does not rerun analysis, so telemetry-status remains DEMO STREAM and the user sees no live-mode result.",
+        "affected_selectors": ["[data-testid=menu-settings-button]", "[data-testid=telemetry-status]"]
+      }
+    ],
+    "design_issues": []
+  },
+  "test_report_links": ["/app/test_reports/iteration_1.json"],
+  "action_items": ["Make the telemetry mode menu action trigger a fresh analysis (or otherwise update analysis state) and show LIVE STREAM when live mode succeeds; preserve a clear fallback message when live sources fail."],
+  "critical_code_review_comments": ["App.js useEffect calls unstable runAnalysis and build emits exhaustive-deps warning; stabilize the callback with useCallback or move initial request logic into the effect to avoid stale state and duplicate/incorrect requests."],
+  "updated_files": ["/app/test_reports/iteration_1.json"],
+  "success_rate": {"backend": "100%", "frontend": "85%"},
+  "seed_data_creation": "None",
+  "retest_needed": true,
+  "should_call_test_agent_after_fix": true,
+  "context_for_next_testing_agent": "GET /api/, GET /api/financial, demo flood analysis, invalid-coordinate validation passed. Enter preset search, preset click, protocol confirmation, financial UI, and 390px no-overflow passed. Retest menu-settings-button after wiring it to rerun analysis.",
+  "rca of the issue": "The settings button handler only executes setDemoMode(!demoMode) at App.js line 39. analysis remains the prior response, and telemetry-status derives from analysis.is_demo_mode rather than demoMode, so the visible stream badge cannot change until another analysis is run."
+}
