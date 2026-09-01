@@ -31,10 +31,10 @@
 /* --- Live NASA Earth video: transparent floating Earth on the right, text overlays on top --- */
 .opening{grid-template-columns:1fr 1fr;gap:0;padding:105px 0 80px 7vw;max-width:none;position:relative}
 .opening-copy{position:relative;z-index:5}
-.earth-stage{height:min(92vh,880px);width:100%;overflow:visible;position:relative;background:transparent}
+.earth-stage{height:min(92vh,880px);width:100%;overflow:visible;position:relative;background:transparent;margin-top:-113px}
 .earth-stage .earth-glow,.earth-stage .earth-orbit{display:none !important}
 .earth-stage::before,.earth-stage::after{display:none !important;content:none !important}
-video.spinning-earth{position:absolute !important;inset:0 !important;top:0 !important;left:0 !important;right:0 !important;bottom:0 !important;transform:none !important;width:100% !important;height:100% !important;min-width:0 !important;min-height:0 !important;border-radius:0 !important;object-fit:contain !important;object-position:center !important;animation:none !important;background:transparent !important;filter:saturate(1.22) contrast(1.1) brightness(1.05) !important;box-shadow:none !important;display:block;z-index:1;mix-blend-mode:screen;pointer-events:none}
+video.spinning-earth{position:absolute !important;top:50% !important;left:50% !important;right:auto !important;bottom:auto !important;transform:translate(-50%,-50%) !important;width:115% !important;height:115% !important;min-width:0 !important;min-height:0 !important;border-radius:0 !important;object-fit:contain !important;object-position:center !important;animation:none !important;background:transparent !important;filter:saturate(1.22) contrast(1.1) brightness(1.05) !important;box-shadow:none !important;display:block;z-index:1;mix-blend-mode:screen;pointer-events:none}
 .earth-readout{right:24px;bottom:24px;color:#eaf3f2;font-size:13px;letter-spacing:.12em;background:#0b1a1fc0;border:1px solid #2d454d;border-radius:12px;padding:10px 14px;backdrop-filter:blur(6px);z-index:4}
 .earth-readout small{color:#8fb5b7}
 @media(max-width:900px){.opening{grid-template-columns:1fr;padding:70px 7vw 60px}.earth-stage{height:60vh}video.spinning-earth{left:-20% !important;width:170% !important}}
