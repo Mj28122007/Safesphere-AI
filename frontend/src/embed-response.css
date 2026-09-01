@@ -1,2 +1,62 @@
-.spinning-earth{animation:spin-earth-axis 24s linear infinite;background-size:cover;background-position:center;transform-style:preserve-3d;overflow:hidden;}@keyframes spin-earth-axis{from{transform:rotateY(0deg)}to{transform:rotateY(360deg)}}
-.embedded-window-heading{padding:42px 42px 20px;display:flex;justify-content:space-between;align-items:flex-start;gap:20px}.embedded-window-heading h2{font-size:32px;letter-spacing:-.04em;margin:10px 0}.iframe-shell{height:680px;margin:0 28px 28px;border-radius:24px;overflow:hidden;border:1px solid #45646b;background:#050b0d;box-shadow:0 18px 50px #0007}.iframe-shell iframe{width:100%;height:100%;border:0;display:block}.response-subwindow{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}.response-subwindow span{border:1px solid #2e5359;border-radius:999px;padding:9px 12px;color:#9cb5b6;font-size:11px}.response-subwindow b{color:#62e4df;margin-right:7px}@media(max-width:560px){.embedded-window-heading{padding:28px 20px 16px}.iframe-shell{height:540px;margin:0 12px 12px;border-radius:18px}.response-subwindow{display:grid;grid-template-columns:1fr}.response-subwindow span{border-radius:14px}}
+/* --- Neutralise visual-editor injected span wrappers so dynamic numbers keep parent typography --- */
+[data-ve-dynamic]{font:inherit !important;color:inherit !important;letter-spacing:inherit !important;font-size:inherit !important;text-transform:inherit !important;line-height:inherit !important}
+
+/* --- Live NASA Earth video (overrides dashboard.css background-based .spinning-earth) --- */
+video.spinning-earth{width:min(38vw,460px);height:min(38vw,460px);min-width:290px;min-height:290px;border-radius:50%;object-fit:cover;animation:none;background:#050a0d;filter:saturate(1.12) contrast(1.05);box-shadow:0 0 80px #3fbac955,inset -30px -20px 45px #010909cc;display:block}
+
+/* --- Iframe embed shell for live map --- */
+.embedded-window-heading{padding:42px 42px 20px;display:flex;justify-content:space-between;align-items:flex-start;gap:20px}
+.embedded-window-heading h2{font-size:32px;letter-spacing:-.04em;margin:10px 0}
+.iframe-shell{height:680px;margin:0 28px 28px;border-radius:24px;overflow:hidden;border:1px solid #45646b;background:#050b0d;box-shadow:0 18px 50px #0007}
+.iframe-shell iframe{width:100%;height:100%;border:0;display:block}
+
+/* --- Emergency response subwindow --- */
+.response-subwindow{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}
+.response-subwindow span{border:1px solid #2e5359;border-radius:999px;padding:9px 12px;color:#9cb5b6;font-size:11px}
+.response-subwindow b{color:#62e4df;margin-right:7px}
+
+/* --- Weather dashboard: significantly larger numbers as requested --- */
+.weather-main strong{font-size:clamp(74px,8vw,110px);line-height:1;letter-spacing:-.06em}
+.weather-stat b{font-size:clamp(34px,3.6vw,46px);letter-spacing:-.03em;line-height:1}
+.weather-stat{gap:10px}
+.weather-stat span{font-size:10px}
+
+/* --- Financial Intelligence redesign (reference-inspired) --- */
+.reference-finance-layout{display:grid;grid-template-columns:1.2fr 1fr;gap:22px;margin-top:38px}
+.reference-alerts,.reference-companies{border:1px solid #2d454d;border-radius:24px;padding:28px;background:linear-gradient(180deg,#13242acc,#0e1b2199)}
+.reference-alerts h3,.reference-companies h3{font-size:15px;margin:0 0 6px;letter-spacing:.02em;color:#eaf3f2;font-weight:700}
+.reference-alerts article{display:flex;gap:16px;padding:20px 0;border-top:1px solid #253b42;align-items:flex-start}
+.reference-alerts article:first-of-type{border-top:0;padding-top:14px}
+.reference-alerts article>div:nth-child(2){flex:1;min-width:0}
+.reference-alerts article b{font-size:15px;color:#eaf3f2;display:block}
+.reference-alerts article p{color:#95a9ac;font-size:12.5px;line-height:1.5;margin:6px 0 8px}
+.reference-alerts article small{color:#62e4df;font:10px 'DM Mono',monospace;letter-spacing:.08em}
+.reference-alerts article>span{font:10px 'DM Mono',monospace;color:#f0bc76;padding:6px 10px;border:1px solid #4a4131;border-radius:999px;letter-spacing:.1em;white-space:nowrap;background:#efc46b12}
+.reference-icon{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;font-size:22px;flex-shrink:0}
+.reference-icon.storm{background:linear-gradient(135deg,#ff717133,#ff717111);color:#ff9090;border:1px solid #ff717133}
+.reference-icon.sun{background:linear-gradient(135deg,#f0bc7633,#f0bc7611);color:#f0bc76;border:1px solid #f0bc7633}
+.company-columns{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:16px}
+.company-column{padding:20px 16px;border-radius:18px;background:#0d181e;border:1px solid #2d454d;display:flex;flex-direction:column;gap:8px;transition:transform .2s,border-color .2s}
+.company-column:hover{transform:translateY(-3px)}
+.company-column b{font-size:13px;color:#eaf3f2}
+.company-column small{font:9px 'DM Mono',monospace;letter-spacing:.14em;font-weight:700}
+.company-column p{margin:0;color:#8ba2a5;font-size:11px;line-height:1.4}
+.company-column.high{border-color:#ff717166;box-shadow:inset 0 -80px 60px -60px #ff717118}
+.company-column.high small{color:#ff9090}
+.company-column.med{border-color:#efc46b66;box-shadow:inset 0 -80px 60px -60px #efc46b18}
+.company-column.med small{color:#f0bc76}
+.company-column.low{border-color:#62e4df55;box-shadow:inset 0 -80px 60px -60px #62e4df15}
+.company-column.low small{color:#62e4df}
+
+@media(max-width:900px){
+  .reference-finance-layout{grid-template-columns:1fr}
+  .company-columns{grid-template-columns:1fr 1fr}
+}
+@media(max-width:560px){
+  .embedded-window-heading{padding:28px 20px 16px}
+  .iframe-shell{height:540px;margin:0 12px 12px;border-radius:18px}
+  .response-subwindow{display:grid;grid-template-columns:1fr}
+  .response-subwindow span{border-radius:14px}
+  .company-columns{grid-template-columns:1fr}
+  .reference-alerts,.reference-companies{padding:20px}
+}
