@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#08131e" />
+    <title>TerraSignal — Regional Market Intelligence</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <nav class="nav"><a class="brand" href="#top"><span class="brand-mark">T</span> TerraSignal</a><span class="nav-label">REGIONAL MARKET INTELLIGENCE</span><span class="live-dot">Source-fed demo</span></nav>
+      <section class="hero" id="top"><p class="eyebrow">Disaster-aware financial intelligence</p><h1>Markets, mapped to<br /><em>where disruption happens.</em></h1><p class="hero-copy">TerraSignal reads incoming disaster alerts, identifies the affected region, and surfaces local market sectors and companies with regional exposure.</p></section>
+      <section class="alerts-section" aria-labelledby="alerts-heading">
+        <div class="section-head alerts-head"><div><span class="step">01</span><h2 id="alerts-heading">Recent disruption alerts</h2></div><p>SELECT AN AREA TO EXPLORE ITS MARKET IMPACT</p></div>
+        <div id="alerts-grid" class="alerts-grid" role="list"></div>
+        <div class="source-strip"><span class="source-pulse"></span><span id="source-note">Event feed: demo fixture</span><span class="source-logic">Alert → affected region → sector exposure → company signal</span></div>
+      </section>
+      <section id="results" class="results" aria-live="polite">
+        <div class="results-intro"><div><p class="eyebrow" id="result-kicker">Coastal Tamil Nadu · Flooding</p><h2>Regional market impact</h2></div><div class="confidence"><span>Signal confidence</span><strong id="confidence-value">78%</strong><i><b id="confidence-bar"></b></i></div></div>
+        <div class="impact-summary"><div class="impact-icon" id="impact-icon">≈</div><div><p class="summary-label">Source-led market read</p><h3 id="summary-title">Manufacturing & logistics most exposed</h3><p id="summary-copy"></p></div><div class="timeframe"><span>Forecast window</span><strong id="timeframe-value">1–10 trading days</strong></div></div>
+        <div class="sector-panel"><div><p class="panel-kicker">Affected market domains</p><h3>Where the impact could land</h3></div><div id="sector-tags" class="sector-tags"></div></div>
+        <div class="section-head"><div><span class="step">02</span><h2>Companies with regional exposure</h2></div><p id="company-count">4 companies surfaced</p></div><div id="company-grid" class="company-grid"></div>
+        <div class="bottom-grid"><article class="panel drivers-panel"><p class="panel-kicker">Why these sectors are exposed</p><h3>Impact pathways</h3><ul id="drivers-list"></ul></article><article class="panel method-panel"><p class="panel-kicker">How this works</p><h3>From incident data to regional signals.</h3><p>Each alert is matched to a region, then scored against company headquarters and operational footprints. Signals are scenario estimates—not price targets, live market data, or investment advice.</p><button id="next-alert" class="text-button">View next alert <span>→</span></button></article></div>
+      </section>
+    </main>
+    <footer>TerraSignal is an educational prototype. Verify source information before making financial decisions.</footer>
+    <script src="app.js"></script>
+  </body>
+</html>
